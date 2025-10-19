@@ -60,25 +60,39 @@ const SignUp = () => {
           }),
         });
         await setActive({ session: completeSignUp.createdSessionId });
-        setVerification({
+        setVerification((verification) => ({
           ...verification,
           state: "success",
-        });
+          error: "",
+        }));
       } else {
-        setVerification({
+        setVerification((verification) => ({
           ...verification,
           error: "Verification failed. Please try again.",
           state: "failed",
-        });
+        }));
       }
     } catch (err: any) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      setVerification({
+      console.error("Verification Error:", err);
+
+      let message =
+        "Something went wrong. Please check your connection and try again.";
+
+      if (err?.errors?.length) {
+        message = err.errors[0]?.longMessage || message;
+      }
+      // If network or JSON parse error
+      else if (err?.message) {
+        message = err.message;
+      }
+
+      setVerification((verification) => ({
         ...verification,
-        error: err.errors[0].longMessage,
+        error: message,
         state: "failed",
-      });
+      }));
     }
   };
   return (
@@ -150,7 +164,7 @@ const SignUp = () => {
             <InputField
               label={"Code"}
               icon={icons.lock}
-              placeholder={"12345"}
+              placeholder={"123456"}
               value={verification.code}
               keyboardType="numeric"
               onChangeText={(code) =>
