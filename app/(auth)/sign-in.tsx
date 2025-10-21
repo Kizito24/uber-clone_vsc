@@ -1,6 +1,6 @@
-import { useSignIn } from "@clerk/clerk-expo";
+import { useAuth, useSignIn } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 
 import CustomButton from "@/components/CustomButton";
@@ -10,12 +10,21 @@ import { icons, images } from "@/constants";
 
 const SignIn = () => {
   const { signIn, setActive, isLoaded } = useSignIn();
+  const { isSignedIn } = useAuth();
+
   const router = useRouter();
 
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+  // ✅ Redirect if already signed in
+  useEffect(() => {
+    if (isSignedIn) {
+      router.replace("/(root)/(tabs)/home");
+    }
+  }, [isSignedIn, router]);
 
   const onSignInPress = useCallback(async () => {
     if (!isLoaded) return;

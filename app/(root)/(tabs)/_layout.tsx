@@ -14,7 +14,7 @@ const TabIcon = ({
     className={`flex flex-row justify-center items-center rounded-full ${focused ? "bg-general-300" : ""}`}
   >
     <View
-      className={`rounded-full w-12 h-12 items-center justify-center ${focused ? "bg-general-400" : ""}`}
+      className={`flex flex-row rounded-full w-12 h-12 items-center justify-center ${focused ? "bg-general-400" : ""}`}
     >
       <Image
         source={source}
@@ -29,7 +29,7 @@ const TabIcon = ({
 export default function Layout() {
   return (
     <Tabs
-      initialRouteName="index"
+      initialRouteName="home"
       screenOptions={{
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "white",
@@ -37,13 +37,12 @@ export default function Layout() {
         tabBarStyle: {
           backgroundColor: "#333333",
           borderRadius: 50,
-          paddingBottom: 0, // ios only
           overflow: "hidden",
-          marginHorizontal: 20,
+          marginHorizontal: 10,
           marginBottom: 20,
           height: 78,
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "center",
           alignItems: "center",
           flexDirection: "row",
           position: "absolute",
